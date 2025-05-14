@@ -27,9 +27,6 @@ app.get('/kullanicilar', (req, res) => {
 });
 
 // Sunucu başlat
-app.listen(3001, () => {
-  console.log('Sunucu 3001 portunda çalışıyor');
-});
 const server = http.createServer(app);
 const io = socketIO(server, {
   cors: {
