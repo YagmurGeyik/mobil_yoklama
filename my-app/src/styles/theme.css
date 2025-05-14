@@ -160,5 +160,24 @@ body {
     padding-top: 20px;
     font-size: 27px;
   }
-  
+  .dashboard-layout {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #f3d0d766;
+  padding: 15px;
+  overflow-y: auto;
+  border-right: 2px solid #ffe0e0;
+}
+
+.dashboard-main {
+  flex: 1;
+  padding: 30px;
+  background-color: #F6F5F2;
+  overflow-y: auto;
+}
+
   
