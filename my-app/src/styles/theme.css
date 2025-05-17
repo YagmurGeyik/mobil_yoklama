@@ -180,4 +180,19 @@ body {
   overflow-y: auto;
 }
 
+.welcome-text {
+  margin-right: 15px;   /* Butonla arası biraz boşluk */
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #4a4a4a;
+  margin-left: -10px;  /* Sola kaydırma */
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+
   
