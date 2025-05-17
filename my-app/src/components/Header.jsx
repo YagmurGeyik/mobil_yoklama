@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/theme.css";
 
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation(); // 🔄 Sayfa değişimini dinliyoruz
   const [ogretmen, setOgretmen] = useState(null);
 
   useEffect(() => {
     const storedOgretmen = localStorage.getItem("ogretmen");
-    console.log("LocalStorage'dan çekilen öğretmen:", storedOgretmen); // <-- Kontrol ediyoruz
+    console.log("LocalStorage'dan çekilen öğretmen:", storedOgretmen);
+
     if (storedOgretmen) {
       const parsedOgretmen = JSON.parse(storedOgretmen);
       setOgretmen(parsedOgretmen);
     }
-  }, []);
+  }, [location.pathname]); // 🔄 Sayfa her değiştiğinde kontrol et
 
   const handleLogout = () => {
     localStorage.removeItem("ogretmen");

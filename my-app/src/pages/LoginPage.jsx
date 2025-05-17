@@ -26,8 +26,15 @@ const LoginPage = () => {
 
         // 💡 **localStorage'a doğru kaydettiğimizden emin olalım**
         console.log("Giriş yapan kullanıcı:", data.ogretmen); // Konsolda doğru bilgi var mı kontrol et
+        if (data.ogretmen) {
+        // Ad ve soyadı büyük harfe çevirip kaydediyoruz
         data.ogretmen.ad_soyad = data.ogretmen.ad_soyad.toUpperCase();
         localStorage.setItem("ogretmen", JSON.stringify(data.ogretmen));
+
+        // Kaydedildi mi kontrol edelim:
+        console.log("LocalStorage'a kaydedildi:", localStorage.getItem("ogretmen"));
+        }
+
         // Dashboard sayfasına yönlendir
         navigate("/dashboard");
       } else {
