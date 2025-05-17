@@ -26,8 +26,8 @@ const LoginPage = () => {
 
         // 💡 **localStorage'a doğru kaydettiğimizden emin olalım**
         console.log("Giriş yapan kullanıcı:", data.ogretmen); // Konsolda doğru bilgi var mı kontrol et
+        data.ogretmen.ad_soyad = data.ogretmen.ad_soyad.toUpperCase();
         localStorage.setItem("ogretmen", JSON.stringify(data.ogretmen));
-
         // Dashboard sayfasına yönlendir
         navigate("/dashboard");
       } else {

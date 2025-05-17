@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../styles/theme.css";
 
 const Header = () => {
@@ -8,8 +8,10 @@ const Header = () => {
 
   useEffect(() => {
     const storedOgretmen = localStorage.getItem("ogretmen");
+    console.log("LocalStorage'dan çekilen öğretmen:", storedOgretmen); // <-- Kontrol ediyoruz
     if (storedOgretmen) {
-      setOgretmen(JSON.parse(storedOgretmen));
+      const parsedOgretmen = JSON.parse(storedOgretmen);
+      setOgretmen(parsedOgretmen);
     }
   }, []);
 
@@ -22,10 +24,6 @@ const Header = () => {
   return (
     <header className="header">
       <div className="logo">📚 Yoklama Sistemi</div>
-      <nav className="nav-links">
-        <Link to="/">Ana Sayfa</Link>
-        <Link to="/dashboard">Kontrol Paneli</Link>
-      </nav>
       <div className="auth-buttons">
         {ogretmen ? (
           <div className="user-info">
