@@ -1,5 +1,7 @@
+// src/pages/LoginPage.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "../styles/theme.css";
 
 const LoginPage = () => {
@@ -11,37 +13,32 @@ const LoginPage = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, sifre: password }), // Şifreyi "sifre" olarak göndermemiz gerekiyor
+      const response = await axios.post("http://localhost:5000/api/auth/login", {
+        email,
+        sifre: password, // Şifreyi "sifre" olarak gönderiyoruz
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
+      if (response.status === 200) {
         alert("Giriş Başarılı!");
 
         // 💡 **localStorage'a doğru kaydettiğimizden emin olalım**
-        console.log("Giriş yapan kullanıcı:", data.ogretmen); // Konsolda doğru bilgi var mı kontrol et
-        if (data.ogretmen) {
-        // Ad ve soyadı büyük harfe çevirip kaydediyoruz
-        data.ogretmen.ad_soyad = data.ogretmen.ad_soyad.toUpperCase();
-        localStorage.setItem("ogretmen", JSON.stringify(data.ogretmen));
+        console.log("Giriş yapan kullanıcı:", response.data.ogretmen);
+        if (response.data.ogretmen) {
+          // Ad ve soyadı büyük harfe çevirip kaydediyoruz
+          response.data.ogretmen.ad_soyad = response.data.ogretmen.ad_soyad.toUpperCase();
+          localStorage.setItem("ogretmen", JSON.stringify(response.data.ogretmen));
 
-        // Kaydedildi mi kontrol edelim:
-        console.log("LocalStorage'a kaydedildi:", localStorage.getItem("ogretmen"));
+          // Kaydedildi mi kontrol edelim:
+          console.log("LocalStorage'a kaydedildi:", localStorage.getItem("ogretmen"));
         }
 
         // Dashboard sayfasına yönlendir
         navigate("/dashboard");
       } else {
-        alert(data.error);
+        alert(response.data.error);
       }
     } catch (error) {
-      console.error("Giriş hatası:", error);
+      console.error("Giriş hatası:", error.message);
       alert("Sunucuya bağlanırken bir hata oluştu!");
     }
   };

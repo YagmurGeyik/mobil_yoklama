@@ -1,21 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import "../styles/theme.css";
 
 const Header = () => {
   const navigate = useNavigate();
-  const location = useLocation(); // 🔄 Sayfa değişimini dinliyoruz
+  const location = useLocation();
   const [ogretmen, setOgretmen] = useState(null);
 
   useEffect(() => {
     const storedOgretmen = localStorage.getItem("ogretmen");
-    console.log("LocalStorage'dan çekilen öğretmen:", storedOgretmen);
 
     if (storedOgretmen) {
       const parsedOgretmen = JSON.parse(storedOgretmen);
       setOgretmen(parsedOgretmen);
     }
-  }, [location.pathname]); // 🔄 Sayfa her değiştiğinde kontrol et
+  }, [location.pathname]);
 
   const handleLogout = () => {
     localStorage.removeItem("ogretmen");
@@ -26,11 +25,17 @@ const Header = () => {
   return (
     <header className="header">
       <div className="logo">📚 Yoklama Sistemi</div>
+
+      <nav className="nav-links">
+        {/* Sadece admin paneli linki var */}
+        <Link to="/admin-panel">Admin Paneli</Link>
+      </nav>
+
       <div className="auth-buttons">
         {ogretmen ? (
           <div className="user-info">
-            <span className="welcome-text">{ogretmen.ad_soyad}</span>
-            <button className="btn" onClick={handleLogout}>
+            <span className="welcome-text">{ogretmen.ad_soyad.toUpperCase()}</span>
+            <button className="btn logout-button" onClick={handleLogout}>
               Çıkış Yap
             </button>
           </div>
