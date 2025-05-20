@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-d
 import LoginPage from "./pages/LoginPage";
 import Dashboard from "./pages/Dashboard";
 import Header from "./components/Header";
-import AdminPanel from "./components/AdminPanel";
+import AdminPanel from "./pages/AdminPanel";
 import "./styles/theme.css";
 import KullaniciListesi from "./KullaniciListesi"; // Doğru yolu kontrol et!
 import OgretmenListesi from "./components/OgretmenListesi";
@@ -36,22 +36,22 @@ function App() {
         <Routes>
           <Route path="/" element={<LoginPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/admin" element={
+          <Route path="/admin-panel" element={
             <AdminRoute>
               <AdminPanel />
             </AdminRoute>
           } />
-          <Route path="/admin/ogretmenler" element={
+          <Route path="/admin-panel/ogretmenler" element={
             <AdminRoute>
               <OgretmenListesi />
             </AdminRoute>
           } />
-          <Route path="/admin/ogrenciler" element={
+          <Route path="/admin-panel/ogrenciler" element={
             <AdminRoute>
               <OgrenciListesi />
             </AdminRoute>
           } />
-          <Route path="/admin/kullanicilar" element={
+          <Route path="/admin-panel/kullanicilar" element={
             <AdminRoute>
               <KullaniciListesi />
             </AdminRoute>

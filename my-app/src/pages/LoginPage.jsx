@@ -10,39 +10,41 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+const handleLogin = async (e) => {
+  e.preventDefault();
 
-    try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        sifre: password, // Şifreyi "sifre" olarak gönderiyoruz
-      });
+  try {
+    const response = await axios.post("http://localhost:5000/api/auth/giris", {
+      email,
+      sifre: password, // Şifre "sifre" olarak gönderiliyor
+    });
 
-      if (response.status === 200) {
-        alert("Giriş Başarılı!");
+    if (response.status === 200 && response.data.token) {
+      alert("Giriş Başarılı!");
 
-        // 💡 **localStorage'a doğru kaydettiğimizden emin olalım**
-        console.log("Giriş yapan kullanıcı:", response.data.ogretmen);
-        if (response.data.ogretmen) {
-          // Ad ve soyadı büyük harfe çevirip kaydediyoruz
-          response.data.ogretmen.ad_soyad = response.data.ogretmen.ad_soyad.toUpperCase();
-          localStorage.setItem("ogretmen", JSON.stringify(response.data.ogretmen));
+      const { token } = response.data;
 
-          // Kaydedildi mi kontrol edelim:
-          console.log("LocalStorage'a kaydedildi:", localStorage.getItem("ogretmen"));
-        }
+      // Token'ı localStorage'a kaydet
+      localStorage.setItem("token", token);
 
-        // Dashboard sayfasına yönlendir
-        navigate("/dashboard");
-      } else {
-        alert(response.data.error);
-      }
-    } catch (error) {
-      console.error("Giriş hatası:", error.message);
+      // Token'dan bağımsız olarak ad_soyad vs. varsa kaydet
+      const ogretmenBilgi = JSON.parse(atob(token.split('.')[1])); // JWT payload'ı decode et
+      localStorage.setItem("ogretmen", JSON.stringify(ogretmenBilgi));
+
+      navigate("/dashboard");
+    } else {
+      alert(response.data.error || "Giriş başarısız!");
+    }
+  } catch (error) {
+    console.error("Giriş hatası:", error);
+    if (error.response?.data?.error) {
+      alert(error.response.data.error);
+    } else {
       alert("Sunucuya bağlanırken bir hata oluştu!");
     }
-  };
+  }
+};
+
 
   return (
     <div className="login-container">

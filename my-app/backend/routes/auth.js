@@ -1,47 +1,56 @@
 const express = require('express');
-const app = express();
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const router = express.Router();
 const mysql = require('mysql2');
 
-// DB bağlantısı
-const db = mysql.createConnection({
+const SECRET_KEY = "gizliAnahtar";
+
+const db = mysql.createPool({
   host: 'localhost',
   user: 'root',
   password: 'yag0309ik',
-  database: 'online_yoklama'
+  database: 'online_yoklama',
 });
 
-// Body verisini alabilmek için gerekli middleware
-app.use(express.json());
+router.use(express.json());
+// login.js (auth router)
 
-app.post('/api/giris', async (req, res) => {
+router.post("/giris", async (req, res) => {
   const { email, sifre } = req.body;
 
   if (!email || !sifre) {
-    return res.status(400).json({ error: 'E-posta ve şifre gerekli' });
+    return res.status(400).json({ error: "E-posta ve şifre gerekli" });
   }
 
   try {
-    const [results] = await db.promise().query('SELECT * FROM ogretmenler WHERE email = ?', [email]);
+    const [results] = await db.query("SELECT * FROM ogretmenler WHERE email = ?", [email]);
 
     if (results.length === 0) {
-      return res.status(401).json({ error: 'Kullanıcı bulunamadı!' });
+      return res.status(401).json({ error: "Kullanıcı bulunamadı!" });
     }
 
     const ogretmen = results[0];
 
-    if (ogretmen.sifre !== sifre) {
-      return res.status(401).json({ error: 'Şifre yanlış!' });
+    // bcrypt ile şifre karşılaştırma
+    const sifreDogruMu = await bcrypt.compare(sifre, ogretmen.sifre);
+    if (!sifreDogruMu) {
+      return res.status(401).json({ error: "Şifre yanlış!" });
     }
 
-    res.status(200).json({
-      message: 'Giriş başarılı!',
-      ogretmen: {
+    const token = jwt.sign(
+      {
         id: ogretmen.id,
         ad_soyad: ogretmen.ad_soyad,
         yetki: ogretmen.yetki,
       },
-    });
+      SECRET_KEY,
+      { expiresIn: "1h" }
+    );
+
+    res.status(200).json({ message: "Giriş başarılı!", token });
   } catch (err) {
-    res.status(500).json({ error: 'Sunucu hatası!', details: err.message });
+    console.error(err);
+    res.status(500).json({ error: "Sunucu hatası!", details: err.message });
   }
 });
