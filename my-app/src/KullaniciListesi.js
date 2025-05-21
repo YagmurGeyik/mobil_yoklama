@@ -27,7 +27,7 @@ function KullaniciListesi() {
   }, []);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/kullanici")
+    axios.get("http://localhost:5000/api/kullanicilar")
       .then(res => {
         setKullanicilar(res.data);
         console.log("Başlangıç verisi:", res.data);
@@ -41,9 +41,9 @@ function KullaniciListesi() {
     <div>
       <h1>Aktif Öğrenciler</h1>
       <ul>
-        {kullanicilar.map((kullanici, index) => (
+        {kullanicilar.map((kullanicilar, index) => (
           <li key={index}>
-            {kullanici.ad} {kullanici.soyad}
+            {kullanicilar.ad} {kullanicilar.soyad}
           </li>
         ))}
       </ul>

@@ -33,7 +33,6 @@ app.use((req, res) => {
   res.status(404).json({ error: "Sayfa bulunamadı" });
 });
 
-// -----------------------
 // Socket.io entegrasyonu
 const server = http.createServer(app); // express app'i http server ile sarmalıyoruz
 
@@ -53,7 +52,6 @@ io.on("connection", (socket) => {
 
   // İstersen burada kendi socket eventlerini ekleyebilirsin
 });
-app.use("/api/kullanicilar", kullanicilarRoutes);
 
 // Server'ı http server üzerinden başlatıyoruz (app.listen yerine)
 server.listen(PORT, () => {

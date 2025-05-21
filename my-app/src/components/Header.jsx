@@ -27,8 +27,8 @@ const Header = () => {
       <div className="logo">📚 Yoklama Sistemi</div>
 
       <nav className="nav-links">
-        {/* Sadece admin paneli linki var */}
         <Link to="/admin-panel">Admin Paneli</Link>
+        <Link to="/dashboard">Dashboard</Link>
       </nav>
 
       <div className="auth-buttons">
