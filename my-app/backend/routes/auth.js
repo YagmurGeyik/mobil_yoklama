@@ -1,21 +1,14 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const router = express.Router();
-const mysql = require('mysql2');
+
+const db = require('../db'); // Ortak DB bağlantısı
 
 const SECRET_KEY = "gizliAnahtar";
 
-const db = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'yag0309ik',
-  database: 'online_yoklama',
-});
-
 router.use(express.json());
-// login.js (auth router)
 
+// Öğretmen Giriş
 router.post("/giris", async (req, res) => {
   const { email, sifre } = req.body;
 
@@ -32,9 +25,11 @@ router.post("/giris", async (req, res) => {
 
     const ogretmen = results[0];
 
-    // bcrypt ile şifre karşılaştırma
-    const sifreDogruMu = await bcrypt.compare(sifre, ogretmen.sifre);
-    if (!sifreDogruMu) {
+    // Şifre karşılaştırması - boşluklardan etkilenmemesi için trim()
+    console.log("Girilen şifre:", sifre);
+    console.log("Veritabanındaki şifre:", ogretmen.sifre);
+
+    if (sifre.trim() !== String(ogretmen.sifre).trim()) {
       return res.status(401).json({ error: "Şifre yanlış!" });
     }
 
@@ -54,3 +49,5 @@ router.post("/giris", async (req, res) => {
     res.status(500).json({ error: "Sunucu hatası!", details: err.message });
   }
 });
+
+module.exports = router;

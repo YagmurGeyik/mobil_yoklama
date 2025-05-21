@@ -27,13 +27,14 @@ const OgrenciListesi = () => {
       <h2 className="text-xl font-semibold mb-4">🎓 Öğrenci Listesi</h2>
       <OgrenciForm onRefresh={fetchOgrenciler} />
       <ul className="mt-4">
-        {ogrenciler.map((o) => (
-          <li key={o.id} className="flex justify-between items-center py-1 border-b">
-            <span>{o.ad_soyad} - {o.ogrenci_no} / {o.sinif}</span>
-            <button onClick={() => handleSil(o.id)} className="text-red-600 hover:underline">Sil</button>
-          </li>
-        ))}
-      </ul>
+  {ogrenciler.map((o) => (
+    <li key={o.id} className="flex justify-between items-center py-1 border-b">
+      <span>{o.ad} {o.soyad} - {o.studentNumber} - {o.email}</span>
+      <button onClick={() => handleSil(o.id)} className="text-red-600 hover:underline">Sil</button>
+    </li>
+  ))}
+</ul>
+
     </div>
   );
 };

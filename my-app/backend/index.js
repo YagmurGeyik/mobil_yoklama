@@ -1,10 +1,11 @@
 // backend/index.js
 
 const express = require('express');
-const mysql = require('mysql2');
 const cors = require('cors');
 const http = require("http");
 const socketIO = require("socket.io");
+
+const db = require('./db'); // ✔️ Veritabanı bağlantısını db.js üzerinden al
 const authRoutes = require('./routes/auth');     // ✔️ Auth route bağlandı
 const adminRoutes = require('./routes/admin');   // ✔️ Admin route bağlandı
 
@@ -12,37 +13,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// ✔️ MySQL Bağlantısı
-const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'yag0309ik',
-  database: 'online_yoklama'
-});
-
-// ✔️ Veritabanı Bağlantı Kontrolü
-db.connect((err) => {
-  if (err) {
-    console.error('❌ Veritabanına bağlanılamadı:', err.message);
-  } else {
-    console.log('✅ Veritabanına başarıyla bağlanıldı.');
-  }
-});
-
 // ✔️ Router Bağlantıları
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 
 // ✔️ Kullanıcı listesini döner
-app.get('/api/kullanicilar', (req, res) => {
-  const sql = 'SELECT * FROM kullanicilar';
-  db.query(sql, (err, data) => {
-    if (err) {
-      console.error('❌ Kullanıcılar alınamadı:', err.message);
-      return res.status(500).json({ error: 'Sunucu hatası!' });
-    }
-    return res.status(200).json(data);
-  });
+app.get('/api/kullanicilar', async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT * FROM kullanicilar');
+    res.status(200).json(rows);
+  } catch (err) {
+    console.error('❌ Kullanıcılar alınamadı:', err.message);
+    res.status(500).json({ error: 'Sunucu hatası!' });
+  }
 });
 
 // ✔️ Socket.IO Ayarları
@@ -79,8 +62,6 @@ io.on("connection", (socket) => {
 
 // ✔️ Sunucu Başlat
 const PORT = process.env.PORT || 5000;
-
 server.listen(PORT, () => {
   console.log(`🚀 Backend ${PORT} portunda çalışıyor.`);
 });
-

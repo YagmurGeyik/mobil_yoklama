@@ -1,7 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const http = require("http"); // <-- yeni
+const http = require("http");
+const { Server } = require("socket.io"); 
 const app = express();
 const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
@@ -35,7 +36,7 @@ app.use((req, res) => {
 // -----------------------
 // Socket.io entegrasyonu
 const server = http.createServer(app); // express app'i http server ile sarmalıyoruz
-/*
+
 const io = new Server(server, {
   cors: {
     origin: "*", // İstersen frontend adresini buraya yazabilirsin
@@ -54,8 +55,6 @@ io.on("connection", (socket) => {
 });
 app.use("/api/kullanicilar", kullanicilarRoutes);
 
-*/
-// -----------------------
 // Server'ı http server üzerinden başlatıyoruz (app.listen yerine)
 server.listen(PORT, () => {
   console.log(`🚀 Sunucu ${PORT} portunda çalışıyor.`);
