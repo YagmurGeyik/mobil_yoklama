@@ -8,7 +8,7 @@ const OgretmenListesi = () => {
     ad_soyad: "",
     email: "",
     sifre: "",
-    role: "ogretmen",
+    yetki: "ogretmen",
   });
 
   // Öğretmenleri çek
@@ -35,7 +35,7 @@ const OgretmenListesi = () => {
     e.preventDefault();
     try {
       await axios.post("/api/admin/ogretmenler", formData);
-      setFormData({ ad_soyad: "", email: "", sifre: "", role: "ogretmen" });
+      setFormData({ ad_soyad: "", email: "", sifre: "", yetki: "ogretmen" });
       fetchOgretmenler();
       alert("Öğretmen başarıyla eklendi");
     } catch (error) {
@@ -84,7 +84,7 @@ const OgretmenListesi = () => {
           onChange={handleChange}
           required
         />
-        <select name="role" value={formData.role} onChange={handleChange}>
+        <select name="yetki" value={formData.yetki} onChange={handleChange}>
           <option value="ogretmen">Öğretmen</option>
           <option value="admin">Admin</option>
           <option value="dekan">Dekan</option>
@@ -95,7 +95,7 @@ const OgretmenListesi = () => {
       <ul>
         {ogretmenler.map((o) => (
           <li key={o.id}>
-            {o.ad_soyad} ({o.email}) - Rol: {o.role}{" "}
+            {o.ad_soyad} ({o.email}) - Rol: {o.yetki}{" "}
             <button onClick={() => handleDelete(o.id)}>Sil</button>
           </li>
         ))}

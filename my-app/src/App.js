@@ -9,6 +9,7 @@ import "./styles/theme.css";
 import KullaniciListesi from "./KullaniciListesi"; // Doğru yolu kontrol et!
 import OgretmenListesi from "./components/OgretmenListesi";
 import OgrenciListesi from "./components/OgrenciListesi";
+import "./styles/adminpanel.css";
 
 // 🔒 AdminRoute bileşeni
 const AdminRoute = ({ children }) => {
