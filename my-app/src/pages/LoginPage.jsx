@@ -16,7 +16,7 @@ const handleLogin = async (e) => {
   try {
     const response = await axios.post("http://localhost:5000/api/auth/giris", {
       email,
-      sifre: password, // Şifre "sifre" olarak gönderiliyor
+      sifre: password, 
     });
 
     if (response.status === 200 && response.data.token) {

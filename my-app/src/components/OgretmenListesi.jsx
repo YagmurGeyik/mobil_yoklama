@@ -13,6 +13,9 @@ const OgretmenListesi = () => {
   const fetchOgretmenler = async () => {
     try {
       const res = await axios.get("/api/admin/ogretmenler");
+      console.log(res.data); // Öğretmen adlarını kontrol etmek için
+
+  
       setOgretmenler(res.data);
     } catch (error) {
       console.error("Öğretmenleri çekerken hata:", error);
@@ -112,10 +115,10 @@ const OgretmenListesi = () => {
         <ul className="item-list">
           {ogretmenler.map((o) => (
             <li key={o.id}>
-              <span>{o.ad_soyad} ({o.email}) - Yetki: {o.yetki}</span>
-<button className="delete-btn" onClick={() => handleDelete(o.id)}>
-  <span>🗑️</span> 
-</button>
+              <span>{decodeURIComponent(escape(o.ad_soyad))} ({o.email}) - Yetki: {o.yetki}</span>
+              <button className="delete-btn" onClick={() => handleDelete(o.id)}>
+              <span>🗑️</span> 
+              </button>
             </li>
           ))}
         </ul>

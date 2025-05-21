@@ -8,19 +8,20 @@ const Header = () => {
   const [ogretmen, setOgretmen] = useState(null);
   
   useEffect(() => {
-    const storedOgretmen = localStorage.getItem("ogretmen");
-    
-    if (storedOgretmen) {
-      const parsedOgretmen = JSON.parse(storedOgretmen);
-      setOgretmen(parsedOgretmen);
-    }
-  }, [location.pathname]);
+      const storedOgretmen = localStorage.getItem("ogretmen");
+      console.log("LocalStorage'dan çekilen öğretmen:", storedOgretmen);
   
-  const handleLogout = () => {
-    localStorage.removeItem("ogretmen");
-    setOgretmen(null);
-    navigate("/");
-  };
+      if (storedOgretmen) {
+        const parsedOgretmen = JSON.parse(storedOgretmen);
+        setOgretmen(parsedOgretmen);
+      }
+    }, [location.pathname]); // 🔄 Sayfa her değiştiğinde kontrol et
+  
+    const handleLogout = () => {
+      localStorage.removeItem("ogretmen");
+      setOgretmen(null);
+      navigate("/");
+    };
   
   const toTurkishUpper = (str) => {
     const letters = { i: "İ", ı: "I", ş: "Ş", ğ: "Ğ", ü: "Ü", ö: "Ö", ç: "Ç" };
@@ -41,7 +42,9 @@ const Header = () => {
       <div className="auth-buttons">
         {ogretmen ? (
           <div className="user-info">
-            <span className="welcome-text">{toTurkishUpper(ogretmen.ad_soyad)}</span>
+<span className="welcome-text">
+  {toTurkishUpper(decodeURIComponent(escape(ogretmen.ad_soyad)))}
+</span>
             <button className="logout-btn" onClick={handleLogout}>
               Çıkış Yap
             </button>

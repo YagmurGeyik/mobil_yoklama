@@ -20,7 +20,7 @@ body {
   .auth-buttons .btn {
   background-color: #C599B6;
   border: none;
-  padding: 14px 25px; /* Daha büyük padding */
+  padding: 10px 25px; /* Daha büyük padding */
   cursor: pointer;
   font-size: 16px; /* Yazı boyutunu büyüt */
   border-radius: 30px; /* Daha yumuşak köşeler */
@@ -130,7 +130,7 @@ body {
   .nav-links {
     display: flex;
     gap: 20px;
-    margin-left: -150px; /* Bağlantıları sola kaydırır */ 
+    margin-left: 50px; /* Bağlantıları sola kaydırır */ 
   }
   
   .nav-links a {

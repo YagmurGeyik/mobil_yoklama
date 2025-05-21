@@ -155,7 +155,7 @@ select.input {
 /* Header Styles */
 .admin-header {
   background-color: #F3D0D7;
-  padding: 15px 40px;
+  padding: 20px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
