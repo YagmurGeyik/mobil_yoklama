@@ -1,60 +1,29 @@
-// components/OgrenciListesi.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const OgrenciListesi = () => {
   const [ogrenciler, setOgrenciler] = useState([]);
-  const [formData, setFormData] = useState({
-    ad: "",
-    soyad: "",
-    email: "",
-    password: "",
-    studentNumber: "",
-  });
+  const [loading, setLoading] = useState(true);
 
   const fetchOgrenciler = async () => {
+    setLoading(true);
     try {
       const res = await axios.get("/api/admin/ogrenciler", {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Token eklendi
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
       setOgrenciler(res.data);
     } catch (error) {
       console.error("Öğrencileri çekerken hata:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchOgrenciler();
   }, []);
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post("/api/admin/ogrenciler", formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      setFormData({
-        ad: "",
-        soyad: "",
-        email: "",
-        password: "",
-        studentNumber: "",
-      });
-      fetchOgrenciler();
-      alert("Öğrenci başarıyla eklendi");
-    } catch (error) {
-      alert("Hata oluştu, lütfen alanları kontrol edin.");
-      console.error(error);
-    }
-  };
 
   const handleDelete = async (id) => {
     if (!window.confirm("Öğrenciyi silmek istediğinize emin misiniz?")) return;
@@ -72,61 +41,34 @@ const OgrenciListesi = () => {
   };
 
   return (
-    <div>
-      <h2>Öğrenci Listesi</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="ad"
-          placeholder="Ad"
-          value={formData.ad}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="soyad"
-          placeholder="Soyad"
-          value={formData.soyad}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="E-posta"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Şifre"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="studentNumber"
-          placeholder="Öğrenci Numarası"
-          value={formData.studentNumber}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Ekle</button>
-      </form>
+    <div className="panel-box">
+      <h2 className="panel-title">Öğrenci Listesi</h2>
 
-      <ul>
-        {ogrenciler.map((o) => (
-          <li key={o.id}>
-            {o.ad} {o.soyad} | No: {o.studentNumber} | E-posta: {o.email} | Durum:{" "}
-            {o.aktif_durum ? "Aktif" : "Pasif"}{" "}
-            <button onClick={() => handleDelete(o.id)}>Sil</button>
-          </li>
-        ))}
-      </ul>
+      {loading ? (
+        <div className="loading">Yükleniyor...</div>
+      ) : ogrenciler.length === 0 ? (
+        <p className="no-data">Henüz öğrenci bulunmamaktadır.</p>
+      ) : (
+        <div className="list-container">
+          <div className="list-title">Kayıtlı Öğrenciler</div>
+          <ul className="item-list">
+            {ogrenciler.map((o) => (
+              <li key={o.id}>
+                <span>
+                  {o.ad} {o.soyad} - {o.studentNumber} - {o.email}
+                </span>
+                <button 
+  className="delete-btn" 
+  onClick={() => handleDelete(o.id)}
+>
+  <span>🗑️</span> 
+</button>
+
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

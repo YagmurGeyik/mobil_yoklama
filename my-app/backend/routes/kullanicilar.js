@@ -7,11 +7,14 @@ const dbPool = mysql.createPool({
   user: "root",
   password: "yag0309ik",
   database: "online_yoklama",
+  charset: "utf8mb4" 
 });
 
 // Tüm öğrencileri döndür (ad ve soyad ayrı ayrı döner)
 router.get("/", async (req, res) => {
   try {
+    await dbPool.query("SET NAMES utf8mb4 COLLATE utf8mb4_turkish_ci"); // Türkçe karakter için garanti
+
     const [results] = await dbPool.query("SELECT id, ad, soyad FROM ogrenciler");
 
     // Öğrenci listesini doğrudan döndür

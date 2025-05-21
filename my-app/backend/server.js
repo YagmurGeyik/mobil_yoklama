@@ -12,6 +12,12 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
+// TÜRKÇE karakterler için UTF-8 charset
+app.use((req, res, next) => {
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  next();
+});
+
 // Route tanımları
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);

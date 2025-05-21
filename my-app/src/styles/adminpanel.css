@@ -1,3 +1,10 @@
+/* Admin Panel Main Container */
+.admin-container {
+  min-height: 100vh;
+  background-color: #f9f3f3;
+}
+
+/* Side by Side Panel Layout */
 .admin-panel-container {
   display: flex;
   justify-content: space-between;
@@ -5,6 +12,7 @@
   padding: 20px 40px;
 }
 
+/* Panel Boxes */
 .panel-box {
   width: 48%;
   background-color: #FFFFFF;
@@ -12,8 +20,12 @@
   border-radius: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
   border: 2px solid #F3D0D7;
+  margin-bottom: 20px;
+  max-height: 75vh;         /* Panelin yüksekliğini sınırla */
+  overflow-y: auto;         /* İçeriği kaydırılabilir yap */
 }
 
+/* Panel Title Styles */
 .panel-title {
   font-size: 22px;
   font-weight: bold;
@@ -22,52 +34,84 @@
   text-align: center;
 }
 
+/* Form Container */
+.form-container {
+  margin-bottom: 30px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+/* Form Group Styles */
 .form-group {
   margin-bottom: 15px;
 }
 
-.form-group label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: #555;
-}
-
-.form-group input {
+/* Form Input Styles - Similar to Login Page */
+.input {
   width: 100%;
-  padding: 10px 14px;
-  border: 1px solid #ccc;
+  padding: 12px 8px;
+  border: 1px solid #ddd;
   border-radius: 25px;
   font-size: 14px;
+  margin-bottom: 10px;
+  display: block;
 }
 
-.button-group {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 15px;
+select.input {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+  padding: 12px 16px;          /* Yatay ve dikey padding */
+  padding-right: 2.5rem;
+  height: 45px;                /* Yükseklik EKLENDİ */
 }
 
-.button-group button {
-  flex: 1;
-  padding: 10px;
-  margin: 5px;
+/* Button Styles - Similar to Login Page */
+.btn {
+  display: block;
+  width: 100%;
+  padding: 12px 20px;
   background-color: #E6B2BA;
   color: white;
   border: none;
   border-radius: 25px;
-  cursor: pointer;
   font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
   transition: background-color 0.3s ease;
 }
 
-.button-group button:hover {
-  background-color: #F3D0D7;
+.btn:hover {
+  background-color: #d9a0aa;
 }
 
-.item-list {
+.btn-primary {
+  background-color: #E6B2BA;
+}
+
+/* List Container */
+.list-container {
   margin-top: 20px;
+  
+}
+
+.list-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #F3D0D7;
+}
+
+/* List Item Styles */
+.item-list {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .item-list li {
@@ -76,26 +120,75 @@
   margin-bottom: 10px;
   border-radius: 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* bu satırı değiştiriyoruz */
   align-items: center;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  gap: 10px; /* metin ile buton arasında boşluk */
 }
 
-.item-list li span {
+/* Yeni: içeriği dikeyde hizalamak için ek konteyner kullanmak daha iyi olur */
+.item-list li > span {
+  flex-grow: 1;
+}
+
+/* Sil butonu - önceki estetik + ikon boşluğu */
+.delete-btn {
+  background-color:#F3D0D7;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color:#d9a0aa;
+  transform: scale(1.05);
+}
+
+
+/* Header Styles */
+.admin-header {
+  background-color: #F3D0D7;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
   color: #333;
+}
+
+.logo-icon {
+  margin-right: 10px;
+  font-size: 24px;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.user-info {
+  margin-right: 20px;
   font-weight: 500;
 }
 
-.item-list li button {
-  background-color: #D16363;
+.logout-btn {
+  background-color: #C599B6;
   color: white;
   border: none;
-  padding: 6px 12px;
+  padding: 8px 16px;
   border-radius: 20px;
   cursor: pointer;
-  font-size: 13px;
-}
-
-.item-list li button:hover {
-  background-color: #b94c4c;
 }

@@ -30,7 +30,9 @@ const OgretmenListesi = () => {
         {ogretmenler.map((o) => (
           <li key={o.id} className="flex justify-between items-center py-1 border-b">
             <span>{o.ad_soyad} ({o.email}) - {o.yetki}</span>
-            <button onClick={() => handleSil(o.id)} className="text-red-600 hover:underline">Sil</button>
+<button onClick={() => handleSil(o.id)} className="delete-btn">
+   <span>🗑️</span>
+</button>
           </li>
         ))}
       </ul>

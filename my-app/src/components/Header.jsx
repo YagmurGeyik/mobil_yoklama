@@ -6,42 +6,49 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [ogretmen, setOgretmen] = useState(null);
-
+  
   useEffect(() => {
     const storedOgretmen = localStorage.getItem("ogretmen");
-
+    
     if (storedOgretmen) {
       const parsedOgretmen = JSON.parse(storedOgretmen);
       setOgretmen(parsedOgretmen);
     }
   }, [location.pathname]);
-
+  
   const handleLogout = () => {
     localStorage.removeItem("ogretmen");
     setOgretmen(null);
     navigate("/");
   };
-
+  
+  const toTurkishUpper = (str) => {
+    const letters = { i: "İ", ı: "I", ş: "Ş", ğ: "Ğ", ü: "Ü", ö: "Ö", ç: "Ç" };
+    return str
+      .replace(/i|ı|ş|ğ|ü|ö|ç/g, (letter) => letters[letter])
+      .toUpperCase();
+  };
+  
   return (
-    <header className="header">
+    <header className="admin-header">
       <div className="logo">📚 Yoklama Sistemi</div>
-
+      
       <nav className="nav-links">
         <Link to="/admin-panel">Admin Paneli</Link>
         <Link to="/dashboard">Dashboard</Link>
       </nav>
-
+      
       <div className="auth-buttons">
         {ogretmen ? (
           <div className="user-info">
-            <span className="welcome-text">{ogretmen.ad_soyad.toUpperCase()}</span>
-            <button className="btn logout-button" onClick={handleLogout}>
+            <span className="welcome-text">{toTurkishUpper(ogretmen.ad_soyad)}</span>
+            <button className="logout-btn" onClick={handleLogout}>
               Çıkış Yap
             </button>
           </div>
         ) : (
           <button className="btn" onClick={() => navigate("/")}>
-            Giriş
+            Giriş Yap
           </button>
         )}
       </div>

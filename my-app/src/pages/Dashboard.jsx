@@ -20,7 +20,7 @@ const Dashboard = () => {
       </div>
       <div className="dashboard-main">
         <h2>ÖĞRETMEN KONTROL PANELİ</h2>
-        {ogretmen && <p>Hoşgeldiniz, {ogretmen.ad_soyad}!</p>}
+        {ogretmen && <p>Hoşgeldiniz, {ogretmen.ad_soyad.toLocaleUpperCase("tr-TR")}!</p>}
         <QRCodeGenerator />
       </div>
     </div>

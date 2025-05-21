@@ -17,19 +17,21 @@ body {
     font-size: 24px;
     font-weight: bold;
   }
-  .auth-buttons {
-    display: flex;
-    align-items: center;
-    margin-right: 50px; /* Butonu sola kaydırır */
-  }
-  
   .auth-buttons .btn {
-    background-color: #C599B6;
-    border: none;
-    padding: 12px 18px;
-    margin-left: -10px;
-    cursor: pointer;
-  }
+  background-color: #C599B6;
+  border: none;
+  padding: 14px 25px; /* Daha büyük padding */
+  cursor: pointer;
+  font-size: 16px; /* Yazı boyutunu büyüt */
+  border-radius: 30px; /* Daha yumuşak köşeler */
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.auth-buttons .btn:hover {
+  background-color: #B181A5; /* Hover efekti */
+}
+
   
   .login-container {
     display: flex;

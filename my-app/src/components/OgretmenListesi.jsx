@@ -1,4 +1,3 @@
-// components/OgretmenListesi.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -11,7 +10,6 @@ const OgretmenListesi = () => {
     yetki: "ogretmen",
   });
 
-  // Öğretmenleri çek
   const fetchOgretmenler = async () => {
     try {
       const res = await axios.get("/api/admin/ogretmenler");
@@ -25,12 +23,10 @@ const OgretmenListesi = () => {
     fetchOgretmenler();
   }, []);
 
-  // Form input değişikliklerini yönet
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Yeni öğretmen ekle
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -44,7 +40,6 @@ const OgretmenListesi = () => {
     }
   };
 
-  // Öğretmen sil
   const handleDelete = async (id) => {
     if (!window.confirm("Silmek istediğinize emin misiniz?")) return;
     try {
@@ -57,49 +52,74 @@ const OgretmenListesi = () => {
   };
 
   return (
-    <div>
-      <h2>Öğretmen Listesi</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="ad_soyad"
-          placeholder="Ad Soyad"
-          value={formData.ad_soyad}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="E-posta"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="sifre"
-          placeholder="Şifre"
-          value={formData.sifre}
-          onChange={handleChange}
-          required
-        />
-        <select name="yetki" value={formData.yetki} onChange={handleChange}>
-          <option value="ogretmen">Öğretmen</option>
-          <option value="admin">Admin</option>
-          <option value="dekan">Dekan</option>
-        </select>
-        <button type="submit">Ekle</button>
+    <div className="panel-box">
+      <h2 className="panel-title">Öğretmen Listesi</h2>
+      
+      <form className="form-container" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <input
+            className="input"
+            type="text"
+            name="ad_soyad"
+            placeholder="Ad Soyad"
+            value={formData.ad_soyad}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <input
+            className="input"
+            type="email"
+            name="email"
+            placeholder="E-posta"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <input
+            className="input"
+            type="password"
+            name="sifre"
+            placeholder="Şifre"
+            value={formData.sifre}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="form-group">
+          <select
+            className="input"
+            name="yetki"
+            value={formData.yetki}
+            onChange={handleChange}
+          >
+            <option value="ogretmen">Öğretmen</option>
+            <option value="dekan">Dekan</option>
+          </select>
+        </div>
+
+        <button className="btn btn-primary" type="submit">Ekle</button>
       </form>
 
-      <ul>
-        {ogretmenler.map((o) => (
-          <li key={o.id}>
-            {o.ad_soyad} ({o.email}) - Rol: {o.yetki}{" "}
-            <button onClick={() => handleDelete(o.id)}>Sil</button>
-          </li>
-        ))}
-      </ul>
+      <div className="list-container">
+        <div className="list-title">Kayıtlı Öğretmenler</div>
+        <ul className="item-list">
+          {ogretmenler.map((o) => (
+            <li key={o.id}>
+              <span>{o.ad_soyad} ({o.email}) - Yetki: {o.yetki}</span>
+<button className="delete-btn" onClick={() => handleDelete(o.id)}>
+  <span>🗑️</span> 
+</button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };

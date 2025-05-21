@@ -8,14 +8,6 @@ function KullaniciListesi() {
   useEffect(() => {
     const socket = io('http://localhost:5000');
 
-    // Sahte kullanıcıyı doğrudan emit et
-    const girisYapanKullanici = {
-      id: "ogrenci123",
-      ad: "Ali",
-      soyad: "Yılmaz"
-    };
-    socket.emit("kullanici-giris", girisYapanKullanici);
-
     socket.on("online-kullanicilar", (data) => {
       console.log("Socket üzerinden güncel kullanıcılar:", data);
       setKullanicilar(data);
