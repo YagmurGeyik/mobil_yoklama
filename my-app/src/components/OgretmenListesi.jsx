@@ -13,9 +13,6 @@ const OgretmenListesi = () => {
   const fetchOgretmenler = async () => {
     try {
       const res = await axios.get("/api/admin/ogretmenler");
-      console.log(res.data); // Öğretmen adlarını kontrol etmek için
-
-  
       setOgretmenler(res.data);
     } catch (error) {
       console.error("Öğretmenleri çekerken hata:", error);
