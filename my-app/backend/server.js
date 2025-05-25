@@ -6,7 +6,8 @@ const { Server } = require("socket.io");
 const app = express();
 const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
-const kullanicilarRoutes = require("./routes/kullanicilar"); // Ekle
+const kullanicilarRoutes = require("./routes/kullanicilar");
+const sessionRoutes = require('./routes/session');  // Ekle
 const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
@@ -21,7 +22,8 @@ app.use((req, res, next) => {
 // Route tanımları
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api/kullanicilar", kullanicilarRoutes); 
+app.use("/api/kullanicilar", kullanicilarRoutes);
+app.use("/api/session", sessionRoutes);  
 
 // Ana sayfa
 app.get("/", (req, res) => {
@@ -39,15 +41,18 @@ app.use((req, res) => {
   res.status(404).json({ error: "Sayfa bulunamadı" });
 });
 
-// Socket.io entegrasyonu
-const server = http.createServer(app); // express app'i http server ile sarmalıyoruz
+// HTTP sunucusunu oluştur
+const server = http.createServer(app);
 
+// Socket.io entegrasyonu
 const io = new Server(server, {
   cors: {
-    origin: "*", // İstersen frontend adresini buraya yazabilirsin
+    origin: "*",
     methods: ["GET", "POST"],
   },
 });
+
+global.io = io; // ⬅️ Diğer dosyalarda kullanabilmek için global
 
 io.on("connection", (socket) => {
   console.log("Bir kullanıcı bağlandı:", socket.id);
@@ -55,11 +60,9 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("Kullanıcı ayrıldı:", socket.id);
   });
-
-  // İstersen burada kendi socket eventlerini ekleyebilirsin
 });
 
-// Server'ı http server üzerinden başlatıyoruz (app.listen yerine)
+// Server'ı başlat
 server.listen(PORT, () => {
   console.log(`🚀 Sunucu ${PORT} portunda çalışıyor.`);
   console.log(`🌐 Admin rotası: http://localhost:${PORT}/api/admin`);

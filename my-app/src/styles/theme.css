@@ -148,7 +148,7 @@ body {
     height: 100vh;  /* Ekran yüksekliğini tam ekran yapar */
     margin: 0;
     padding: 0;
-    overflow: hidden; /* Sayfanın aşağı kaymasını engeller */
+    overflow: auto; /* Sayfanın aşağı kaymasını engeller */
   }
   
   .app-container {
@@ -180,6 +180,9 @@ body {
   padding: 30px;
   background-color: #F6F5F2;
   overflow-y: auto;
+  min-height: 100vh; /* Eklenecek satır */
+  box-sizing: border-box;
+  padding-bottom: 80px;
 }
 
 .welcome-text {
@@ -251,6 +254,99 @@ body {
   margin-bottom: 5px;
   border-radius: 5px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.qr-generator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.lesson-input {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 400px;
+}
+
+.lesson-input label {
+  font-weight: bold;
+  color: #7B3F61; /* Mor ton */
+}
+
+.lesson-input input {
+  padding: 12px;
+  border: 2px solid #E6B2BA;
+  border-radius: 8px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #fff;
+  color: #4a4a4a;
+}
+
+.lesson-input input:focus {
+  border-color: #C599B6;
+  outline: none;
+}
+
+.lesson-input input:disabled {
+  background-color: #f6f5f2;
+  color: #999;
+}
+
+.session-info {
+  text-align: center;
+  background-color: #FFEFEF;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #f3d0d7;
+}
+
+.session-info h3 {
+  margin: 0 0 5px 0;
+  color: #B181A5; /* Mor-pembe tonu */
+}
+
+.session-info p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.countdown-text {
+  font-size: 18px;
+  font-weight: bold;
+  color: #C94F70; /* Uyarı için hafif kırmızımsı pembe tonu */
+  margin: 10px 0;
+}
+
+.qr-generator button {
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.qr-generator button:not(:disabled) {
+  background-color: #C599B6; /* Ana pastel mor tonu */
+  color: white;
+}
+
+.qr-generator button:not(:disabled):hover {
+  background-color: #B181A5;
+}
+
+.qr-generator button:disabled {
+  background-color: #E0D5DA; /* Pasif mor-gri karışımı */
+  color: white;
+  cursor: not-allowed;
 }
 
   

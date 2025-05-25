@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
   try {
     await dbPool.query("SET NAMES utf8mb4 COLLATE utf8mb4_turkish_ci"); // Türkçe karakter için garanti
 
-    const [results] = await dbPool.query("SELECT id, ad, soyad FROM ogrenciler");
+    const [results] = await dbPool.query("SELECT id, ad, soyad FROM ogrenciler WHERE aktif_durum = 1");
 
     // Öğrenci listesini doğrudan döndür
     const students = results.map((ogr) => ({
