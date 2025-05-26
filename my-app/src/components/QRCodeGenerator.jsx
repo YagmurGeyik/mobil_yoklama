@@ -38,7 +38,7 @@ const QRCodeGenerator = () => {
 
     // Backend'e session bilgilerini gönder
     try {
-      const response = await fetch('http://192.168.191.243:5000/api/session/create-session', {
+      const response = await fetch('http://localhost:5000/api/sessions/create-session', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ const QRCodeGenerator = () => {
   const qrData = JSON.stringify({
     sessionId: sessionId,
     lesson: lessonName,
-    timestamp: Date.now()
+    timestamp: new Date().toISOString()
   });
 
   return (
@@ -97,7 +97,7 @@ const QRCodeGenerator = () => {
         <>
           <div className="session-info">
             <h3>Aktif Ders: {lessonName}</h3>
-            <p>Session ID: {sessionId}</p>
+            <p>Ders ID: {sessionId}</p>
           </div>
           <QRCodeSVG value={qrData} size={400} />
           <p className="countdown-text">

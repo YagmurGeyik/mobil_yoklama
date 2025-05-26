@@ -5,7 +5,7 @@ const db = mysql.createPool({
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASSWORD || 'yag0309ik',
   database: process.env.DB_NAME || 'online_yoklama',
-  charset: 'utf8mb4_general_ci' // ← BU SATIRI EKLE
+  charset: 'utf8mb4_general_ci'
 });
 
 db.getConnection()

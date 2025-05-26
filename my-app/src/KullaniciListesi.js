@@ -33,15 +33,14 @@ function KullaniciListesi() {
     <div>
       <h1>Aktif Öğrenciler</h1>
       <ul>
-        {kullanicilar.map((kullanicilar, index) => (
+        {kullanicilar.map((kullanici, index) => (
           <li key={index}>
-            {kullanicilar.ad} {kullanicilar.soyad}
+            {kullanici.studentName} {kullanici.studentSurname}
           </li>
         ))}
       </ul>
     </div>
   );
 }
-
 
 export default KullaniciListesi;

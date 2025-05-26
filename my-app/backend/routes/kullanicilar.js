@@ -7,28 +7,32 @@ const dbPool = mysql.createPool({
   user: "root",
   password: "yag0309ik",
   database: "online_yoklama",
-  charset: "utf8mb4" 
+  charset: "utf8mb4"
 });
 
-// Tüm öğrencileri döndür (ad ve soyad ayrı ayrı döner)
 router.get("/", async (req, res) => {
   try {
-    await dbPool.query("SET NAMES utf8mb4 COLLATE utf8mb4_turkish_ci"); // Türkçe karakter için garanti
+    await dbPool.query("SET NAMES utf8mb4 COLLATE utf8mb4_turkish_ci");
 
-    const [results] = await dbPool.query("SELECT id, ad, soyad FROM ogrenciler WHERE aktif_durum = 1");
+    const [results] = await dbPool.query(`
+      SELECT id, studentName, studentSurname, lesson, timestamp, sessionId, studentId
+      FROM attendance
+    `);
 
-    // Öğrenci listesini doğrudan döndür
-    const students = results.map((ogr) => ({
-      id: ogr.id,
-      ad: ogr.ad,
-      soyad: ogr.soyad,
+    const attendanceRecords = results.map((rec) => ({
+      id: rec.id,
+      studentName: rec.studentName,
+      studentSurname: rec.studentSurname,
+      lesson: rec.lesson,
+      timestamp: rec.timestamp,
+      sessionId: rec.sessionId,
+      studentId: rec.studentId,
     }));
 
-    res.json(students);
+    res.json(attendanceRecords);
   } catch (err) {
-    console.error("Kullanıcılar alınamadı:", err);
+    console.error("❌ Attendance kayıtları alınamadı:", err);
     res.status(500).json({ error: "Sunucu hatası" });
   }
 });
-
 module.exports = router;
